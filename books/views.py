@@ -2,8 +2,6 @@ from django.shortcuts import render , redirect
 from .models import Book, Author
 from django.contrib.auth.decorators import login_required
 
-
-
 # Create your views here.
 
 def home_books_view(request):
@@ -25,14 +23,19 @@ def author_view(request, author_id):
 @login_required(login_url='login')
 def choose_favorite(request, book_id):
     book=Book.objects.get(id=book_id)
-    if request.user in book.favorited_by.all():
-        book.favorited_by.remove(request.user)
+    current_user=request.user
+    the_book_favorited_users= book.favorited_by.all()
+
+    if current_user in the_book_favorited_users:
+        book.favorited_by.remove(current_user)
     else:
-        book.favorited_by.add(request.user)
+        book.favorited_by.add(current_user)
+
     return redirect('single_book', book_id=book_id)
 
 @login_required
 def user_favorites(request):
     favorite_books = request.user.favorite_books.all()
     context = {'books': favorite_books}
+
     return render(request, 'books/user_favorite.html', context)
