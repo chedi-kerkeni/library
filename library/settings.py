@@ -34,7 +34,7 @@ INSTALLED_APPS = [
     #my apps
     "books",
     "user",
-    "author",
+
 
     #default apps
     "django.contrib.admin",

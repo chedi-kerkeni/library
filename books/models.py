@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 class Author(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -11,6 +11,7 @@ class Book(models.Model):
 
     Title= models.CharField(max_length=50)
     author = models.ForeignKey(Author, on_delete=models.CASCADE )
+    favorited = models.ManyToManyField(User, related_name='favorite_books', blank=True)
 
     def __str__(self):
         return self.Title
